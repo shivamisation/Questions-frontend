@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+
 import {
   Box,
   Button,
@@ -30,6 +31,8 @@ import {
 import AddIcon from "@mui/icons-material/AddCircleOutline";
 import Questions from "./Questions"; // Import the new Questions component
 
+
+
 const Homepage = ({ setTotalProblemsDone, data }) => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [questions, setQuestions] = useState([]);
@@ -39,6 +42,18 @@ const Homepage = ({ setTotalProblemsDone, data }) => {
   const [difficulty, setDifficulty] = useState(3);
   const [importance, setImportance] = useState(3);
   const [openAlert, setOpenAlert] = useState(false);
+  const [validationAlertOpen, setValidationAlertOpen] = useState(false);
+  const [linkError, setLinkError] = useState(false);
+
+  const urlRegex = new RegExp('^(https?:\\/\\/)?' + // protocol
+  '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|' + // domain name
+  '((\\d{1,3}\\.){3}\\d{1,3}))' + // OR ip (v4) address
+  '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*' + // port and path
+  '(\\?[;&a-z\\d%_.~+=-]*)?' + // query string
+  '(\\#[-a-z\\d_]*)?$', 'i'); // fragment locator
+
+
+
 
   // const [totalProblemsDone, setTotalProblemsDone] = useState(0);
 
@@ -48,6 +63,16 @@ const Homepage = ({ setTotalProblemsDone, data }) => {
       setTotalProblemsDone(data.todaysQuestions.length);
     }
   }, [data]);
+
+   // Function to validate the link
+   const validateLink = () => {
+    if (!urlRegex.test(link)) {
+      setLinkError(true);
+      return false;
+    }
+    setLinkError(false);
+    return true;
+  };
 
   const handleButtonClick = () => {
     setIsDialogOpen(true);
@@ -104,6 +129,16 @@ const Homepage = ({ setTotalProblemsDone, data }) => {
   };
 
   const handleOkClick = () => {
+    if (name.trim() === '' || link.trim() === '') {
+      setValidationAlertOpen(true);
+      return;
+    }
+  
+    // Next, validate the link format
+    if (!validateLink()) {
+      setLinkError(true);
+      return;
+    }
     const newQuestion = {
       name,
       link,
@@ -226,6 +261,62 @@ const Homepage = ({ setTotalProblemsDone, data }) => {
         </DialogContent>
         <Button onClick={handleOkClick}>OK</Button>
       </Dialog>
+
+      <Snackbar
+        open={validationAlertOpen}
+        autoHideDuration={6000}
+        onClose={() => setValidationAlertOpen(false)}
+        anchorOrigin={{ vertical: "bottom", horizontal: "left" }}
+        sx={{
+          '& .MuiSnackbar-root': {
+            animation: 'enterAnimation 2500ms ease-in-out',
+          },
+          '@keyframes enterAnimation': {
+            '0%': { transform: 'translateX(-100%)' },
+            '30%': { transform: 'translateX(0)' },
+            '70%': { transform: 'translateX(0)' },
+            '100%': { transform: 'translateX(100%)' },
+          }
+        }}np
+        TransitionProps={{ direction: "left" }}
+      >
+        <Alert
+          onClose={() => setValidationAlertOpen(false)}
+          severity="warning"
+          sx={{ width: "100%" }}
+        >
+          Name and Link cannot be empty!
+        </Alert>
+      </Snackbar>
+
+      <Snackbar
+        open={linkError}
+        autoHideDuration={6000}
+        onClose={() => setValidationAlertOpen(false)}
+        anchorOrigin={{ vertical: "bottom", horizontal: "left" }}
+        sx={{
+          '& .MuiSnackbar-root': {
+            animation: 'enterAnimation 2500ms ease-in-out',
+          },
+          '@keyframes enterAnimation': {
+            '0%': { transform: 'translateX(-100%)' },
+            '30%': { transform: 'translateX(0)' },
+            '70%': { transform: 'translateX(0)' },
+            '100%': { transform: 'translateX(100%)' },
+          }
+        }}np
+        TransitionProps={{ direction: "left" }}
+      >
+        <Alert
+          onClose={() => setValidationAlertOpen(false)}
+          severity="info"
+          sx={{ width: "100%" }}
+        >
+          Enter a valid link buddy ! 
+        </Alert>
+      </Snackbar>
+
+
       <Snackbar
         open={openAlert}
         autoHideDuration={6000}
