@@ -292,7 +292,7 @@ const Homepage = ({ setTotalProblemsDone, data }) => {
       <Snackbar
         open={linkError}
         autoHideDuration={6000}
-        onClose={() => setValidationAlertOpen(false)}
+        onClose={() => setLinkError(false)}
         anchorOrigin={{ vertical: "bottom", horizontal: "left" }}
         sx={{
           '& .MuiSnackbar-root': {
@@ -308,7 +308,7 @@ const Homepage = ({ setTotalProblemsDone, data }) => {
         TransitionProps={{ direction: "left" }}
       >
         <Alert
-          onClose={() => setValidationAlertOpen(false)}
+          onClose={() => setLinkError(false)}
           severity="info"
           sx={{ width: "100%" }}
         >
@@ -320,10 +320,10 @@ const Homepage = ({ setTotalProblemsDone, data }) => {
       <Snackbar
         open={openAlert}
         autoHideDuration={6000}
-        onClose={() => setLinkError(false)}
+        onClose={() => setOpenAlert(false)}
       >
         <Alert
-          onClose={() => setLinkError(false)}
+          onClose={() => setOpenAlert(false)}
           severity="warning"
           sx={{ width: "100%" }}
         >
