@@ -320,10 +320,10 @@ const Homepage = ({ setTotalProblemsDone, data }) => {
       <Snackbar
         open={openAlert}
         autoHideDuration={6000}
-        onClose={() => setOpenAlert(false)}
+        onClose={() => setLinkError(false)}
       >
         <Alert
-          onClose={() => setOpenAlert(false)}
+          onClose={() => setLinkError(false)}
           severity="warning"
           sx={{ width: "100%" }}
         >
