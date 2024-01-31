@@ -3,13 +3,19 @@ import { Box, Grid, Card, CardContent, Typography, IconButton } from "@mui/mater
 import DeleteIcon from '@mui/icons-material/Delete';
 
 const RevisionQuestions = ({ questions }) => {
+    const handleCardClick = (link) => {
+        window.open(link, "_blank"); // Opens the link in a new tab
+      };
+    
   console.log("from the question component",questions)
   return (
     <Box sx={{ margin: '20px', padding: '20px', backgroundColor: 'black', borderRadius: '8px' }}>
       <Grid container spacing={2}>
         {questions.map((question, index) => (
           <Grid item key={index} xs={12} sm={6} md={4} lg={3}>
-            <Card sx={{
+            <Card
+             onClick={() => handleCardClick(question.link)}
+             sx={{
               position: 'relative', // Provide a positioning context
               backgroundColor: 'black',
               color: 'white',
