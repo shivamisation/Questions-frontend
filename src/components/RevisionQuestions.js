@@ -1,10 +1,23 @@
 import React from 'react';
-import { Box, Grid, Card, CardContent, Typography, IconButton } from "@mui/material";
+import { Box, Grid, Card, CardContent, Typography, IconButton , Tooltip } from "@mui/material";
 import DeleteIcon from '@mui/icons-material/Delete';
+import StarIcon from '@mui/icons-material/Star';
+import StarBorderIcon from '@mui/icons-material/StarBorder';
+
 
 const RevisionQuestions = ({ questions }) => {
     const handleCardClick = (link) => {
         window.open(link, "_blank"); // Opens the link in a new tab
+      };
+
+      const renderStars = (value) => {
+        return (
+          <Box>
+            {Array.from({ length: 5 }, (_, i) => (
+              i < value ? <StarIcon key={i} fontSize='small' /> : <StarBorderIcon key={i} fontSize='small'/>
+            ))}
+          </Box>
+        );
       };
     
   console.log("from the question component",questions)
@@ -27,6 +40,16 @@ const RevisionQuestions = ({ questions }) => {
               cursor: 'pointer',
               transition: 'background-color 0.3s, border-color 0.3s'
             }}>
+                <Tooltip
+                title={
+                  <Box>
+                    <Typography variant="caption">Diff: {renderStars(question.difficulty)}</Typography>
+                    <Typography variant="caption">Imp: {renderStars(question.importance)}</Typography>
+                    <Typography variant="caption">Hint: {question.hints || "No hint"}</Typography>
+                  </Box>
+                }
+                arrow
+              ></Tooltip>
               <CardContent>
                 <Typography variant="h6" gutterBottom>
                   {question.name}
