@@ -45,7 +45,7 @@ const RevisionQuestions = ({ questions }) => {
                   <Box>
                     <Typography variant="caption">Diff: {renderStars(question.difficulty)}</Typography>
                     <Typography variant="caption">Imp: {renderStars(question.importance)}</Typography>
-                    <Typography variant="caption">Hint: {question.hints || "No hint"}</Typography>
+                    <Typography variant="caption">Hint: {question.hint || "No hint"}</Typography>
                   </Box>
                 }
                 arrow
